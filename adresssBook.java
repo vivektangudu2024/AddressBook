@@ -1,6 +1,6 @@
 package com.day5;
 
-import java.util.Scanner;
+import java.util.*;
 
 //@desc : representing contact
 class Contact {
@@ -41,27 +41,59 @@ class Contact {
                 '}';
     }
 }
+/*
+* @desc:contains lists of contacts
+* */
+class AddressBookList {
+    private List<Contact> contacts;
+
+    // @desc: Constructor to initialize the contacts list
+    public AddressBookList() {
+        this.contacts = new ArrayList<>();
+    }
+
+    /*
+     @desc:Method to add a new contact to the address book
+     @params:Contact object
+     @return:none
+     */
+    public void addContact(Contact contact) {
+        contacts.add(contact);
+        System.out.println("Contact added successfully to the address book.");
+    }
+
+    //@desc: Method to display all contacts in the address book
+    public void displayContacts() {
+        System.out.println("Contacts in the address book:");
+        for (Contact contact : contacts) {
+            System.out.println(contact);
+        }
+    }
+}
 public class adresssBook {
 
     public static void main(String[] args) {
         // Displaying a welcome message
         displayWelcomeMessage();
 
-        // Creating a new contact
-        Contact newContact = createContact();
+        // Creating a new address book
+        AddressBookList addressBook = new AddressBookList();
 
-        // Displaying the contact information
-        System.out.println("Contact Information:");
-        System.out.println(newContact);
+        // Adding a new contact to the address book
+        Contact newContact = createContact();
+        addressBook.addContact(newContact);
+
+        // Displaying all contacts in the address book
+        addressBook.displayContacts();
 
 
     }
 
     /*
-    @desc: Method to create a new contact
-    @params:none
-    @return:Contact object
-     */
+   @desc: Method to create a new contact
+   @params:none
+   @return:Contact object
+    */
     private static Contact createContact() {
         Scanner scanner = new Scanner(System.in);
 
