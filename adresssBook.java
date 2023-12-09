@@ -40,6 +40,76 @@ class Contact {
                 ", email='" + email + '\'' +
                 '}';
     }
+
+    // Getter methods for retrieving contact information
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+
+    // Setters for updating contact attributes
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 }
 /*
 * @desc:contains lists of contacts
@@ -69,6 +139,40 @@ class AddressBookList {
             System.out.println(contact);
         }
     }
+
+    /*
+     @desc: Method to edit an existing contact based on the person's name
+     @params: string- firstname, sting-lastname
+     @reuturn: none
+     */
+    public void editContact(String firstName, String lastName) {
+        for (Contact contact : contacts) {
+            if (contact.getFirstName().equalsIgnoreCase(firstName) &&
+                    contact.getLastName().equalsIgnoreCase(lastName)) {
+
+                // Prompt user for updated information
+                System.out.println("Enter updated contact details:");
+
+                contact.setAddress(getInput("Address: ", new Scanner(System.in)));
+                contact.setCity(getInput("City: ", new Scanner(System.in)));
+                contact.setState(getInput("State: ", new Scanner(System.in)));
+                contact.setZipCode(getInput("ZIP Code: ", new Scanner(System.in)));
+                contact.setPhoneNumber(getInput("Phone Number: ", new Scanner(System.in)));
+                contact.setEmail(getInput("Email: ", new Scanner(System.in)));
+
+                System.out.println("Contact updated successfully.");
+                return; // Exit the loop if contact is found and updated
+            }
+        }
+
+        System.out.println("Contact not found with the given name.");
+    }
+
+    private static String getInput(String prompt, Scanner scanner) {
+        System.out.print(prompt);
+        return scanner.nextLine();
+    }
+
 }
 public class adresssBook {
 
@@ -83,10 +187,29 @@ public class adresssBook {
         Contact newContact = createContact();
         addressBook.addContact(newContact);
 
+        // Editing an existing contact in the address book
+        editExistingContact(addressBook);
+
         // Displaying all contacts in the address book
         addressBook.displayContacts();
 
 
+    }
+
+    /*
+     @desc: Method to edit an existing contact in the address book
+     @params:AdressBookList object to edit list
+     @desc: none
+     */
+    private static void editExistingContact(AddressBookList addressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the name of the contact to edit:");
+        String firstName = getInput("First Name: ", scanner);
+        String lastName = getInput("Last Name: ", scanner);
+
+        // Editing the existing contact
+        addressBook.editContact(firstName, lastName);
     }
 
     /*
