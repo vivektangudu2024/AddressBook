@@ -190,25 +190,83 @@ class AddressBookList {
     }
 
 }
+class SystemAddressBook {
+    private Map<String, AddressBookList> addressBooks;
+
+    public SystemAddressBook() {
+        this.addressBooks = new HashMap<>();
+    }
+
+    // Method to add a new address book to the system
+    public void addAddressBook(String addressBookName) {
+        AddressBookList addressBook = new AddressBookList();
+        addressBooks.put(addressBookName, addressBook);
+        System.out.println("Address Book '" + addressBookName + "' added to the system.");
+    }
+
+    // Method to get an address book by name
+    public AddressBookList getAddressBook(String addressBookName) {
+        return addressBooks.get(addressBookName);
+    }
+
+    // Method to display all address book names in the system
+    public void displayAddressBooks() {
+        System.out.println("Address Books in the system:");
+        for (String addressBookName : addressBooks.keySet()) {
+            System.out.println(addressBookName);
+        }
+    }
+}
+
 public class adresssBook {
 
     public static void main(String[] args) {
         // Displaying a welcome message
         displayWelcomeMessage();
 
-        // Creating a new address book
-        AddressBookList addressBook = new AddressBookList();
+        // Creating a system with multiple address books
+        SystemAddressBook systemAddressBook = new SystemAddressBook();
 
-        // Adding multiple contacts to the address book
-        int numberOfContacts = 4;
-        for (int i = 0; i < numberOfContacts; i++) {
-            Contact newContact = createContact();
-            addressBook.addContact(newContact);
+        // Adding new address books to the system
+        addAddressBooks(systemAddressBook);
+
+        // Displaying all address books in the system
+        systemAddressBook.displayAddressBooks();
+
+        // Choosing an address book to add contacts
+        String selectedAddressBook = chooseAddressBook(systemAddressBook);
+
+        // Creating a new contact in the selected address book
+        createContact(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Displaying all contacts in the selected address book
+        systemAddressBook.getAddressBook(selectedAddressBook).displayContacts();
+    }
+    // Method to add new address books to the system
+    private static void addAddressBooks(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of address books to add: ");
+        int numberOfAddressBooks = scanner.nextInt();
+
+        for (int i = 0; i < numberOfAddressBooks; i++) {
+            System.out.print("Enter the name of Address Book " + (i + 1) + ": ");
+            String addressBookName = scanner.next();
+
+            // Add address book to the system
+            systemAddressBook.addAddressBook(addressBookName);
         }
+    }
 
-        // Displaying all contacts in the address book
-        addressBook.displayContacts();
+    // Method to choose an address book from the system
+    private static String chooseAddressBook(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.println("Choose an address book from the system:");
+        systemAddressBook.displayAddressBooks();
+
+        System.out.print("Enter the name of the selected Address Book: ");
+        return scanner.next();
     }
 
     /*
@@ -246,7 +304,7 @@ public class adresssBook {
    @params:none
    @return:Contact object
     */
-    private static Contact createContact() {
+    private static void createContact(AddressBookList addressBook) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter contact details:");
@@ -260,8 +318,13 @@ public class adresssBook {
         String phoneNumber = getInput("Phone Number: ", scanner);
         String email = getInput("Email: ", scanner);
 
-        // Creating and returning a new Contact object
-        return new Contact(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
+        // Creating a new contact with the gathered information
+        Contact newContact = new Contact(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
+
+        // Adding the new contact to the specified address book
+        addressBook.addContact(newContact);
+
+        System.out.println("Contact created successfully.");
     }
 
     /*
