@@ -168,6 +168,22 @@ class AddressBookList {
         System.out.println("Contact not found with the given name.");
     }
 
+    // Method to delete a contact based on the person's name
+    public void deleteContact(String firstName, String lastName) {
+        Iterator<Contact> iterator = contacts.iterator();
+        while (iterator.hasNext()) {
+            Contact contact = iterator.next();
+            if (contact.getFirstName().equalsIgnoreCase(firstName) &&
+                    contact.getLastName().equalsIgnoreCase(lastName)) {
+                iterator.remove();
+                System.out.println("Contact deleted successfully.");
+                return; // Exit the loop if contact is found and deleted
+            }
+        }
+
+        System.out.println("Contact not found with the given name.");
+    }
+
     private static String getInput(String prompt, Scanner scanner) {
         System.out.print(prompt);
         return scanner.nextLine();
@@ -193,9 +209,28 @@ public class adresssBook {
         // Displaying all contacts in the address book
         addressBook.displayContacts();
 
+        // Deleting a contact from the address book
+        deleteContact(addressBook);
+
+        // Displaying all contacts in the address book after deletion
+        addressBook.displayContacts();
 
     }
 
+    /*
+     @desc: Method to delete an existing contact in the address book
+
+     */
+    private static void deleteContact(AddressBookList addressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter the name of the contact to delete:");
+        String firstName = getInput("First Name: ", scanner);
+        String lastName = getInput("Last Name: ", scanner);
+
+        // Deleting the existing contact
+        addressBook.deleteContact(firstName, lastName);
+    }
     /*
      @desc: Method to edit an existing contact in the address book
      @params:AdressBookList object to edit list
