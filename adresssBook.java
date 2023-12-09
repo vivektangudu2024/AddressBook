@@ -199,20 +199,14 @@ public class adresssBook {
         // Creating a new address book
         AddressBookList addressBook = new AddressBookList();
 
-        // Adding a new contact to the address book
-        Contact newContact = createContact();
-        addressBook.addContact(newContact);
-
-        // Editing an existing contact in the address book
-        editExistingContact(addressBook);
+        // Adding multiple contacts to the address book
+        int numberOfContacts = 4;
+        for (int i = 0; i < numberOfContacts; i++) {
+            Contact newContact = createContact();
+            addressBook.addContact(newContact);
+        }
 
         // Displaying all contacts in the address book
-        addressBook.displayContacts();
-
-        // Deleting a contact from the address book
-        deleteContact(addressBook);
-
-        // Displaying all contacts in the address book after deletion
         addressBook.displayContacts();
 
     }
