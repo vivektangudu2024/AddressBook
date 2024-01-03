@@ -1,5 +1,8 @@
 package com.day5;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 
@@ -25,14 +28,59 @@ public class adresssBook {
         // Creating a new contact in the selected address book
         createContact(systemAddressBook.getAddressBook(selectedAddressBook),systemAddressBook);
 
-        // Creating a new contact in the selected address book
-        createContact(systemAddressBook.getAddressBook(selectedAddressBook), systemAddressBook);
-
         // Displaying all contacts in the selected address book
         systemAddressBook.getAddressBook(selectedAddressBook).displayContacts();
 
-        viewPersonsByCity(systemAddressBook);
+        // Sorting entries in the address book alphabetically by name
         sortEntriesByName(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Sorting entries in the address book alphabetically by city
+        sortEntriesByCity(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Sorting entries in the address book alphabetically by state
+        sortEntriesByState(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Sorting entries in the address book alphabetically by zip code
+        sortEntriesByZip(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Saving address book to a file
+        saveAddressBookToFile(systemAddressBook, systemAddressBook.getAddressBook(selectedAddressBook), "addressBook.dat");
+
+        // Loading address book from a file
+        loadAddressBookFromFile(systemAddressBook, selectedAddressBook, "addressBook.dat");
+
+        // Getting count of persons by city
+        getCountByCity(systemAddressBook);
+
+        // Getting count of persons by state
+        getCountByState(systemAddressBook);
+
+        // Viewing persons by city
+        viewPersonsByCity(systemAddressBook);
+
+        // Viewing persons by state
+        viewPersonsByState(systemAddressBook);
+
+        // Deleting an existing contact in the address book
+        deleteContact(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Editing an existing contact in the address book
+        editExistingContact(systemAddressBook.getAddressBook(selectedAddressBook));
+
+        // Displaying all contacts after modification
+        systemAddressBook.getAddressBook(selectedAddressBook).displayContacts();
+    }
+
+    // Method to save the address book to a file
+    private static void saveAddressBookToFile(SystemAddressBook systemAddressBook, AddressBookList addressBook, String fileName) {
+
+        addressBook.saveToFile(fileName);
+    }
+
+    // Method to load the address book from a file
+    private static void loadAddressBookFromFile(SystemAddressBook systemAddressBook, String addressBookName, String fileName) {
+        AddressBookList addressBook = systemAddressBook.getAddressBook(addressBookName);
+        addressBook.loadFromFile(fileName);
     }
 
     // Method to sort entries in the address book alphabetically by name

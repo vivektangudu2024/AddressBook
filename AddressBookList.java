@@ -1,5 +1,9 @@
 package com.day5;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -128,5 +132,36 @@ class AddressBookList {
         contacts = contacts.stream()
                 .sorted(Comparator.comparing(Contact::getZipCode))
                 .collect(Collectors.toList());
+    }
+
+    public void saveToFile(String fileName) {
+        try {
+            // Check if the file exists, create it if not
+            Path filePath = Paths.get(fileName);
+            if (!Files.exists(filePath)) {
+                Files.createFile(filePath);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+
+            oos.writeObject(contacts);
+            System.out.println("Address book saved to file: " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error saving address book to file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    // Method to load contacts from a file
+    @SuppressWarnings("unchecked")
+    public void loadFromFile(String fileName) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            contacts = (List<Contact>) ois.readObject();
+            System.out.println("Address book loaded from file: " + fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading address book from file: " + e.getMessage());
+        }
     }
 }
