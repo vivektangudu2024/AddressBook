@@ -23,14 +23,37 @@ public class adresssBook {
         String selectedAddressBook = chooseAddressBook(systemAddressBook);
 
         // Creating a new contact in the selected address book
-        createContact(systemAddressBook.getAddressBook(selectedAddressBook));
+        createContact(systemAddressBook.getAddressBook(selectedAddressBook),systemAddressBook);
 
         // Creating a new contact in the selected address book
-        createContact(systemAddressBook.getAddressBook(selectedAddressBook));
+        createContact(systemAddressBook.getAddressBook(selectedAddressBook), systemAddressBook);
 
         // Displaying all contacts in the selected address book
         systemAddressBook.getAddressBook(selectedAddressBook).displayContacts();
+
+        viewPersonsByCity(systemAddressBook);
     }
+
+    // Method to view persons by city
+    private static void viewPersonsByCity(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the city to view persons: ");
+        String city = scanner.next();
+
+        systemAddressBook.viewPersonsByCity(city);
+    }
+
+    // Method to view persons by state
+    private static void viewPersonsByState(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the state to view persons: ");
+        String state = scanner.next();
+
+        systemAddressBook.viewPersonsByState(state);
+    }
+
 
     // Method to search for a person in a city across all address books
     private static void searchPersonInCity(SystemAddressBook systemAddressBook) {
@@ -128,7 +151,7 @@ public class adresssBook {
    @params:none
    @return:Contact object
     */
-    private static void createContact(AddressBookList addressBook) {
+    private static void createContact(AddressBookList addressBook, SystemAddressBook systemAddressBook) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter contact details:");
@@ -148,6 +171,8 @@ public class adresssBook {
             Contact newContact = new Contact(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
             // Adding the new contact to the specified address book
             addressBook.addContact(newContact);
+            systemAddressBook.addContact(addressBook, newContact);
+
             System.out.println("Contact created successfully.");
         } else {
             System.out.println("Duplicate entry! Contact with the same name already exists.");
