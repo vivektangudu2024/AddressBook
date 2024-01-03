@@ -2,244 +2,7 @@ package com.day5;
 
 import java.util.*;
 
-//@desc : representing contact
-class Contact {
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String city;
-    private String state;
-    private String zipCode;
-    private String phoneNumber;
-    private String email;
 
-    // Constructor for creating a contact
-    public Contact(String firstName, String lastName, String address, String city,
-                   String state, String zipCode, String phoneNumber, String email) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
-
-    // toString method to display contact information
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
-                ", city='" + city + '\'' +
-                ", state='" + state + '\'' +
-                ", zipCode='" + zipCode + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-        Contact contact = (Contact) obj;
-        return Objects.equals(firstName, contact.firstName) &&
-                Objects.equals(lastName, contact.lastName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(firstName, lastName);
-    }
-
-    // Getter methods for retrieving contact information
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-
-    // Setters for updating contact attributes
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-}
-/*
-* @desc:contains lists of contacts
-* */
-class AddressBookList {
-    private List<Contact> contacts;
-
-    // @desc: Constructor to initialize the contacts list
-    public AddressBookList() {
-        this.contacts = new ArrayList<>();
-    }
-
-    /*
-     @desc:Method to add a new contact to the address book
-     @params:Contact object
-     @return:none
-     */
-    public void addContact(Contact contact) {
-        if (!contacts.contains(contact)) {
-            contacts.add(contact);
-            System.out.println("Contact added successfully to the address book.");
-        } else {
-            System.out.println("Duplicate entry! Contact with the same name already exists.");
-        }
-    }
-
-    //@desc: Method to display all contacts in the address book
-    public void displayContacts() {
-        System.out.println("Contacts in the address book:");
-        for (Contact contact : contacts) {
-            System.out.println(contact);
-        }
-    }
-
-    /*
-     @desc: Method to edit an existing contact based on the person's name
-     @params: string- firstname, sting-lastname
-     @reuturn: none
-     */
-    public void editContact(String firstName, String lastName) {
-        for (Contact contact : contacts) {
-            if (contact.getFirstName().equalsIgnoreCase(firstName) &&
-                    contact.getLastName().equalsIgnoreCase(lastName)) {
-
-                // Prompt user for updated information
-                System.out.println("Enter updated contact details:");
-
-                contact.setAddress(getInput("Address: ", new Scanner(System.in)));
-                contact.setCity(getInput("City: ", new Scanner(System.in)));
-                contact.setState(getInput("State: ", new Scanner(System.in)));
-                contact.setZipCode(getInput("ZIP Code: ", new Scanner(System.in)));
-                contact.setPhoneNumber(getInput("Phone Number: ", new Scanner(System.in)));
-                contact.setEmail(getInput("Email: ", new Scanner(System.in)));
-
-                System.out.println("Contact updated successfully.");
-                return; // Exit the loop if contact is found and updated
-            }
-        }
-
-        System.out.println("Contact not found with the given name.");
-    }
-
-    // Method to delete a contact based on the person's name
-    public void deleteContact(String firstName, String lastName) {
-        Iterator<Contact> iterator = contacts.iterator();
-        while (iterator.hasNext()) {
-            Contact contact = iterator.next();
-            if (contact.getFirstName().equalsIgnoreCase(firstName) &&
-                    contact.getLastName().equalsIgnoreCase(lastName)) {
-                iterator.remove();
-                System.out.println("Contact deleted successfully.");
-                return; // Exit the loop if contact is found and deleted
-            }
-        }
-
-        System.out.println("Contact not found with the given name.");
-    }
-
-    private static String getInput(String prompt, Scanner scanner) {
-        System.out.print(prompt);
-        return scanner.nextLine();
-    }
-
-    public boolean isDuplicate(String firstName, String lastName) {
-        return contacts.stream()
-                .anyMatch(contact -> contact.getFirstName().equalsIgnoreCase(firstName) &&
-                        contact.getLastName().equalsIgnoreCase(lastName));
-    }
-
-}
-class SystemAddressBook {
-    private Map<String, AddressBookList> addressBooks;
-
-    public SystemAddressBook() {
-        this.addressBooks = new HashMap<>();
-    }
-
-    // Method to add a new address book to the system
-    public void addAddressBook(String addressBookName) {
-        AddressBookList addressBook = new AddressBookList();
-        addressBooks.put(addressBookName, addressBook);
-        System.out.println("Address Book '" + addressBookName + "' added to the system.");
-    }
-
-    // Method to get an address book by name
-    public AddressBookList getAddressBook(String addressBookName) {
-        return addressBooks.get(addressBookName);
-    }
-
-    // Method to display all address book names in the system
-    public void displayAddressBooks() {
-        System.out.println("Address Books in the system:");
-        for (String addressBookName : addressBooks.keySet()) {
-            System.out.println(addressBookName);
-        }
-    }
-}
 
 public class adresssBook {
 
@@ -268,6 +31,41 @@ public class adresssBook {
         // Displaying all contacts in the selected address book
         systemAddressBook.getAddressBook(selectedAddressBook).displayContacts();
     }
+
+    // Method to search for a person in a city across all address books
+    private static void searchPersonInCity(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the city to search for: ");
+        String city = scanner.next();
+
+        List<Contact> result = systemAddressBook.searchPersonInCity(city);
+
+        if (!result.isEmpty()) {
+            System.out.println("Search results in city '" + city + "':");
+            result.forEach(System.out::println);
+        } else {
+            System.out.println("No person found in the specified city.");
+        }
+    }
+
+    // Method to search for a person in a state across all address books
+    private static void searchPersonInState(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the state to search for: ");
+        String state = scanner.next();
+
+        List<Contact> result = systemAddressBook.searchPersonInState(state);
+
+        if (!result.isEmpty()) {
+            System.out.println("Search results in state '" + state + "':");
+            result.forEach(System.out::println);
+        } else {
+            System.out.println("No person found in the specified state.");
+        }
+    }
+
     // Method to add new address books to the system
     private static void addAddressBooks(SystemAddressBook systemAddressBook) {
         Scanner scanner = new Scanner(System.in);
