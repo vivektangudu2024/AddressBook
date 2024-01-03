@@ -109,4 +109,24 @@ class AddressBookList {
                 .collect(Collectors.toList());
     }
 
+    // Method to sort entries alphabetically by city
+    public void sortEntriesByCity() {
+        contacts = contacts.stream()
+                .sorted(Comparator.comparing(Contact::getCity))
+                .collect(Collectors.toList());
+    }
+
+    // Method to sort entries alphabetically by state
+    public void sortEntriesByState() {
+        contacts = contacts.stream()
+                .sorted(Comparator.comparing(Contact::getState))
+                .collect(Collectors.toList());
+    }
+
+    // Method to sort entries alphabetically by zip code
+    public void sortEntriesByZip() {
+        contacts = contacts.stream()
+                .sorted(Comparator.comparing(Contact::getZipCode))
+                .collect(Collectors.toList());
+    }
 }

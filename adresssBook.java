@@ -42,6 +42,27 @@ public class adresssBook {
         addressBook.displayContacts();
     }
 
+    // Method to sort entries in the address book alphabetically by city
+    private static void sortEntriesByCity(AddressBookList addressBook) {
+        addressBook.sortEntriesByCity();
+        System.out.println("Entries sorted alphabetically by city:");
+        addressBook.displayContacts();
+    }
+
+    // Method to sort entries in the address book alphabetically by state
+    private static void sortEntriesByState(AddressBookList addressBook) {
+        addressBook.sortEntriesByState();
+        System.out.println("Entries sorted alphabetically by state:");
+        addressBook.displayContacts();
+    }
+
+    // Method to sort entries in the address book alphabetically by zip code
+    private static void sortEntriesByZip(AddressBookList addressBook) {
+        addressBook.sortEntriesByZip();
+        System.out.println("Entries sorted alphabetically by zip code:");
+        addressBook.displayContacts();
+    }
+
     // Method to get count of persons by city
     private static void getCountByCity(SystemAddressBook systemAddressBook) {
         Scanner scanner = new Scanner(System.in);
