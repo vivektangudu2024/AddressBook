@@ -1,9 +1,6 @@
 package com.day5;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -106,6 +103,10 @@ class AddressBookList {
                 .collect(Collectors.toList());
     }
 
-    
+    public void sortEntriesByName() {
+        contacts = contacts.stream()
+                .sorted(Comparator.comparing(Contact::getFirstName).thenComparing(Contact::getLastName))
+                .collect(Collectors.toList());
+    }
 
 }

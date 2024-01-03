@@ -32,6 +32,14 @@ public class adresssBook {
         systemAddressBook.getAddressBook(selectedAddressBook).displayContacts();
 
         viewPersonsByCity(systemAddressBook);
+        sortEntriesByName(systemAddressBook.getAddressBook(selectedAddressBook));
+    }
+
+    // Method to sort entries in the address book alphabetically by name
+    private static void sortEntriesByName(AddressBookList addressBook) {
+        addressBook.sortEntriesByName();
+        System.out.println("Entries sorted alphabetically by name:");
+        addressBook.displayContacts();
     }
 
     // Method to get count of persons by city
