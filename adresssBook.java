@@ -34,6 +34,31 @@ public class adresssBook {
         viewPersonsByCity(systemAddressBook);
     }
 
+    // Method to get count of persons by city
+    private static void getCountByCity(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the city to get count: ");
+        String city = scanner.next();
+
+        long count = systemAddressBook.getCountByCity(city);
+
+        System.out.println("Count of persons in the city '" + city + "': " + count);
+    }
+
+    // Method to get count of persons by state
+    private static void getCountByState(SystemAddressBook systemAddressBook) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the state to get count: ");
+        String state = scanner.next();
+
+        long count = systemAddressBook.getCountByState(state);
+
+        System.out.println("Count of persons in the state '" + state + "': " + count);
+    }
+
+
     // Method to view persons by city
     private static void viewPersonsByCity(SystemAddressBook systemAddressBook) {
         Scanner scanner = new Scanner(System.in);

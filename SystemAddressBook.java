@@ -75,6 +75,14 @@ class SystemAddressBook {
         }
     }
 
+    public long getCountByCity(String city) {
+        return cityToPersonMap.getOrDefault(city, Collections.emptyList()).size();
+    }
+
+    public long getCountByState(String state) {
+        return stateToPersonMap.getOrDefault(state, Collections.emptyList()).size();
+    }
+
     public void addContact(AddressBookList addressBook, Contact contact) {
         // Update cityToPersonMap
         cityToPersonMap.computeIfAbsent(contact.getCity(), k -> new ArrayList<>()).add(contact);
