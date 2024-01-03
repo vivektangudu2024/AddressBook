@@ -40,6 +40,19 @@ class Contact {
                 ", email='" + email + '\'' +
                 '}';
     }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Contact contact = (Contact) obj;
+        return Objects.equals(firstName, contact.firstName) &&
+                Objects.equals(lastName, contact.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(firstName, lastName);
+    }
 
     // Getter methods for retrieving contact information
 
@@ -128,8 +141,12 @@ class AddressBookList {
      @return:none
      */
     public void addContact(Contact contact) {
-        contacts.add(contact);
-        System.out.println("Contact added successfully to the address book.");
+        if (!contacts.contains(contact)) {
+            contacts.add(contact);
+            System.out.println("Contact added successfully to the address book.");
+        } else {
+            System.out.println("Duplicate entry! Contact with the same name already exists.");
+        }
     }
 
     //@desc: Method to display all contacts in the address book
@@ -189,6 +206,12 @@ class AddressBookList {
         return scanner.nextLine();
     }
 
+    public boolean isDuplicate(String firstName, String lastName) {
+        return contacts.stream()
+                .anyMatch(contact -> contact.getFirstName().equalsIgnoreCase(firstName) &&
+                        contact.getLastName().equalsIgnoreCase(lastName));
+    }
+
 }
 class SystemAddressBook {
     private Map<String, AddressBookList> addressBooks;
@@ -235,6 +258,9 @@ public class adresssBook {
 
         // Choosing an address book to add contacts
         String selectedAddressBook = chooseAddressBook(systemAddressBook);
+
+        // Creating a new contact in the selected address book
+        createContact(systemAddressBook.getAddressBook(selectedAddressBook));
 
         // Creating a new contact in the selected address book
         createContact(systemAddressBook.getAddressBook(selectedAddressBook));
@@ -311,20 +337,24 @@ public class adresssBook {
 
         String firstName = getInput("First Name: ", scanner);
         String lastName = getInput("Last Name: ", scanner);
-        String address = getInput("Address: ", scanner);
-        String city = getInput("City: ", scanner);
-        String state = getInput("State: ", scanner);
-        String zipCode = getInput("ZIP Code: ", scanner);
-        String phoneNumber = getInput("Phone Number: ", scanner);
-        String email = getInput("Email: ", scanner);
 
-        // Creating a new contact with the gathered information
-        Contact newContact = new Contact(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
+        if (!addressBook.isDuplicate(firstName, lastName)) {
+            String address = getInput("Address: ", scanner);
+            String city = getInput("City: ", scanner);
+            String state = getInput("State: ", scanner);
+            String zipCode = getInput("ZIP Code: ", scanner);
+            String phoneNumber = getInput("Phone Number: ", scanner);
+            String email = getInput("Email: ", scanner);
 
-        // Adding the new contact to the specified address book
-        addressBook.addContact(newContact);
+            // Creating a new contact with the gathered information
+            Contact newContact = new Contact(firstName, lastName, address, city, state, zipCode, phoneNumber, email);
+            // Adding the new contact to the specified address book
+            addressBook.addContact(newContact);
+            System.out.println("Contact created successfully.");
+        } else {
+            System.out.println("Duplicate entry! Contact with the same name already exists.");
+        }
 
-        System.out.println("Contact created successfully.");
     }
 
     /*
